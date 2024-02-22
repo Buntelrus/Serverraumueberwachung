@@ -1,7 +1,7 @@
 from typing import TypedDict
 
 
-class ActorDTO(TypedDict):
+class SensorDTO(TypedDict):
     id: int
     name: str
     description: str
