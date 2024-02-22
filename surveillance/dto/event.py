@@ -1,0 +1,18 @@
+from typing import TypedDict, Literal, Any
+
+EventNames = Literal[Literal['person-enter'], Literal['person-leave']]
+
+Severity = Literal[Literal['critical'], Literal['warning'], Literal['info']]
+
+
+class Event(TypedDict):
+    actor: int
+    data: Any
+
+
+class ExtendedEvent(Event, TypedDict):
+    name: EventNames
+    severity: Severity
+
+
+EventDTO = Event | ExtendedEvent
