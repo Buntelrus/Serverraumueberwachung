@@ -1,4 +1,4 @@
-from typing import TypedDict, Literal, Any
+from typing_extensions import TypedDict, Literal, Any
 
 EventNames = Literal[Literal['person-enter'], Literal['person-leave']]
 

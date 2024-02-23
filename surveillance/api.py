@@ -1,15 +1,13 @@
 from typing import Union, List
 
 from fastapi import FastAPI
-from starlette.websockets import WebSocket, WebSocketDisconnect
+from starlette.websockets import WebSocket
 
 from surveillance.WebSocketManager import WebSocketManager
 from surveillance.dto.event import EventDTO, Event, ExtendedEvent
 
 app = FastAPI()
 websocket_manager = WebSocketManager()
-
-print("test")
 
 @app.get("/")
 async def root():
