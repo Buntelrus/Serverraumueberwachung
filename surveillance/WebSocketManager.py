@@ -1,4 +1,4 @@
-from starlette.websockets import WebSocket
+from starlette.websockets import WebSocket, WebSocketDisconnect
 
 
 class WebSocketManager:
@@ -13,8 +13,15 @@ class WebSocketManager:
         self.active_connections.remove(websocket)
 
     async def send_message(self, message: str, websocket: WebSocket):
-        await websocket.send_text(message)
+        try:
+            await websocket.send_text(message)
+        except WebSocketDisconnect:
+            self.disconnect(websocket)
+
 
     async def broadcast(self, message: str):
         for connection in self.active_connections:
-            await connection.send_text(message)
+            try:
+                await connection.send_text(message)
+            except WebSocketDisconnect:
+                self.disconnect(connection)

@@ -9,6 +9,7 @@ from surveillance.dto.event import EventDTO, Event, ExtendedEvent
 app = FastAPI()
 websocket_manager = WebSocketManager()
 
+print("test")
 
 @app.get("/")
 async def root():
@@ -39,11 +40,3 @@ def events() -> List[EventDTO]:
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await WebSocketManager.connect(websocket)
-    try:
-        while True:
-            data = await websocket.receive_text()
-            # await WebSocketManager.send_message(f"You wrote: {data}", websocket)
-            # await WebSocketManager.broadcast(f"Client #{client_id} says: {data}")
-    except WebSocketDisconnect:
-        WebSocketManager.disconnect(websocket)
-        # await WebSocketManager.broadcast(f"Client #{client_id} left the chat")
