@@ -4,5 +4,11 @@ export default defineNuxtConfig({
   ssr: false,
   app: {
     baseURL: '/Serverraumueberwachung/'
+  },
+  modules: [
+    '@pinia/nuxt',
+  ],
+  pinia: {
+    storesDirs: ['./stores/**'],
   }
 })
