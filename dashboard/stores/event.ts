@@ -1,16 +1,14 @@
 import {defineStore} from "pinia";
 import type {EventDTO} from "~/dto/event";
-import type {ActorDTO} from "~/dto/actor";
+import {useWebsocket} from "../../composables/websocket";
+import {useEventListener} from "../../composables/event-listener";
 
 
 export const useEventStore = defineStore('main', () => {
-    const ws = new WebSocket(`ws://localhost:8000/ws`)
+    const ws  = useWebsocket()
     const events = ref<EventDTO[]>([])
-    ws.onmessage = event => events.value.push(event.data)
-    ws.onopen = () => {
-        console.log('open')
-        ws.send('nice its open')
-    }
+    useEventListener(ws, 'message', (event: MessageEvent) => events.value.push(event.data))
+
     async function loadEvents() {
         events.value = await $fetch<EventDTO[]>(`http://localhost:8000/events`)
     }
