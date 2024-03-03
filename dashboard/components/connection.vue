@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-  import {useWebsocket} from "../../composables/websocket";
-  import {useEventListener} from "../../composables/event-listener";
+  import {useWebsocket} from "~/composables/websocket";
+  import {useEventListener} from "~/composables/event-listener";
 
   const ws = useWebsocket()
   const connected = ref<boolean>(ws.readyState === ws.OPEN)

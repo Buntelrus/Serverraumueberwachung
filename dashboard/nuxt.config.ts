@@ -10,5 +10,12 @@ export default defineNuxtConfig({
   ],
   pinia: {
     storesDirs: ['./stores/**'],
+  },
+  runtimeConfig: {
+    public: {
+      secureProtocols: false,
+      host: 'localhost',
+      port: 8000
+    }
   }
 })

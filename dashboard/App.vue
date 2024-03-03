@@ -5,15 +5,16 @@
     <NuxtLayout>
       <NuxtPage/>
     </NuxtLayout>
-    <p>{{ store.events.length }}</p>
+    <p>{{ eventStore.events.length }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
-import {useTestConnection} from "../composables/test-connection";
+import {useTestConnection} from "~/composables/test-connection";
 
 const router = useRouter()
 useTestConnection().catch(() => router.push('/settings'))
-const store = useEventStore()
-store.loadEvents()
+const eventStore = useEventStore()
+console.log(eventStore)
+eventStore.loadEvents()
 </script>
