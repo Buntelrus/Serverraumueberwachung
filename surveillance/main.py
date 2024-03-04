@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from starlette.websockets import WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 
+from surveillance.ApiSubject import ApiSubject
 from surveillance.PersonCounter import PersonCounter
 from surveillance.WebSocketManager import WebSocketManager
 from surveillance.dto.event import EventDTO, Event, ExtendedEvent
@@ -57,18 +58,7 @@ def devices():
 
 @app.get("/events")
 def events() -> List[EventDTO]:
-    return [
-        Event(
-            actor=12,
-            data="test"
-        ),
-        ExtendedEvent(
-            actor=13,
-            data="wow",
-            severity='warning',
-            name='person-enter'
-        )
-    ]
+    return ApiSubject.event_list
 
 
 @app.websocket("/ws")
