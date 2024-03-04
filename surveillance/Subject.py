@@ -1,6 +1,8 @@
 from typing import Callable, List
+from typing_extensions import Any
 
-SubscriptionArguments = [int, int]
+# todo: should be a generic
+SubscriptionArguments = [Any]
 Subscription = Callable[[SubscriptionArguments], None]
 
 

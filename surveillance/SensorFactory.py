@@ -1,3 +1,6 @@
+from surveillance.Subject import Subscription, SubscriptionArguments
+
+
 class SensorFactory:
     idCount: int = 0
 
