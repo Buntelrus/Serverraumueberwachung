@@ -22,9 +22,9 @@
   .connection
     width: 100%
     height: 3rem
-    background: red
+    background: var(--error)
 
     &.connected
-      background: greenyellow
+      background: var(--success)
 
 </style>

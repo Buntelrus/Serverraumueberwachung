@@ -18,3 +18,7 @@ const eventStore = useEventStore()
 console.log(eventStore)
 eventStore.loadEvents()
 </script>
+
+<style lang="sass">
+@use "sass/main"
+</style>
