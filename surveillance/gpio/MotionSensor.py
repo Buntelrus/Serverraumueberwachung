@@ -13,12 +13,6 @@ class MotionSensor(Device, ApiSubject):
         # self.motionDetected: bool = self.sensor.value
         # self.sensor.when_motion = lambda: self.updateState(True)
         # self.sensor.when_no_motion = lambda: self.updateState(False)
-        self.notify(ExtendedEvent(
-            actor=self.id,
-            data="wow",
-            severity='warning',
-            name='person-enter'
-        ))
 
     # only notify when state has changed
     def updateState(self, newState: bool):

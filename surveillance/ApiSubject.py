@@ -1,3 +1,5 @@
+import json
+
 from typing_extensions import List
 
 from surveillance.Subject import Subject, SubscriptionArguments
@@ -11,7 +13,7 @@ class ApiSubject(Subject):
         self.websocket_manager = websocket_manager
         super().__init__(**kwds)
 
-    def notify(self, payload: EventDTO):
+    async def notify(self, payload: EventDTO):
         super().notify(payload)
         ApiSubject.event_list.append(payload)
-        # self.websocket_manager.broadcast(payload)
+        await self.websocket_manager.broadcast("test")

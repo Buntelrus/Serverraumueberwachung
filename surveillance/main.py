@@ -29,21 +29,6 @@ websocket_manager = WebSocketManager()
 m1 = MotionSensor(pin=1, websocket_manager=websocket_manager)
 m2 = MotionSensor(pin=2, websocket_manager=websocket_manager)
 
-# personCounter = PersonCounter(websocket_manager)
-# async def send_event():
-#     print("interval")
-#     await websocket_manager.broadcast("test")
-#     await asyncio.sleep(3)
-# @app.on_event("startup")
-# async def startup_event():
-#     loop = asyncio.get_event_loop()
-#     task = loop.create_task(send_event())
-#     try:
-#         loop.run_until_complete(task)
-#     except asyncio.CancelledError:
-#         pass
-#     print("went here")
-
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
@@ -57,7 +42,13 @@ def devices():
     return Device.device_list
 
 @app.get("/events")
-def events() -> List[EventDTO]:
+async def events() -> List[EventDTO]:
+    await m1.notify(ExtendedEvent(
+        actor=m1.id,
+        data="wow",
+        severity='warning',
+        name='person-enter'
+    ))
     return ApiSubject.event_list
 
 
@@ -65,6 +56,5 @@ def events() -> List[EventDTO]:
 async def websocket_endpoint(websocket: WebSocket):
     await websocket_manager.connect(websocket)
     while True:
-        print("interval")
-        await websocket_manager.broadcast("test")
-        await asyncio.sleep(3)
+        # keep the websocket alive!!!
+        await asyncio.sleep(1000)
