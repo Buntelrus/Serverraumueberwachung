@@ -10,8 +10,9 @@ threshold = 1
 
 class TemperatureSensor(Device):
     def __init__(self, **kwds):
-        super().__init__(**kwds)
         self.name = 'temperature'
+        self.description = 'capture temperature and humidity'
+        super().__init__(**kwds)
         self.dht_device = adafruit_dht.DHT22(board.D4, use_pulseio=False)
         self.temperature = 0
         self.humidity = 0

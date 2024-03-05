@@ -1,4 +1,4 @@
-export interface ActorDTO {
+export interface DeviceDTO {
     id: number
     name: string
     description: string

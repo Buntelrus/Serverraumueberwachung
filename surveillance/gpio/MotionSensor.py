@@ -5,8 +5,9 @@ from surveillance.gpio.Device import Device
 
 class MotionSensor(Device):
     def __init__(self, **kwds):
-        super().__init__(**kwds)
         self.name = 'motion'
+        self.description = 'Sensor can detect motion'
+        super().__init__(**kwds)
         # self.sensor: ZeroMotionSensor = ZeroMotionSensor(self.pin)
         self.sensor = f"sensor with pin: {self.pin}"
         # self.motionDetected: bool = self.sensor.value
