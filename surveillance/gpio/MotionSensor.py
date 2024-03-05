@@ -1,3 +1,5 @@
+import asyncio
+
 from surveillance.ApiSubject import ApiSubject
 from gpiozero import MotionSensor as ZeroMotionSensor
 
@@ -5,7 +7,7 @@ from surveillance.dto.event import ExtendedEvent
 from surveillance.gpio.Device import Device
 
 
-class MotionSensor(Device, ApiSubject):
+class MotionSensor(ApiSubject):
     def __init__(self, **kwds):
         super().__init__(**kwds)
         # self.sensor: ZeroMotionSensor = ZeroMotionSensor(self.pin)
@@ -16,6 +18,6 @@ class MotionSensor(Device, ApiSubject):
 
     # only notify when state has changed
     def updateState(self, newState: bool):
-        self.notify(newState)
-        self.websocket_manager.broadcast()
+        if (self.motionDetected != newState):
+            self.notify(newState)
 

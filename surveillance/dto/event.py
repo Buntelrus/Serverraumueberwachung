@@ -6,7 +6,7 @@ Severity = Literal[Literal['critical'], Literal['warning'], Literal['info']]
 
 
 class Event(TypedDict):
-    actor: int
+    device: int
     data: Any
 
 

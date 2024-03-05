@@ -1,4 +1,5 @@
 import asyncio
+from contextlib import asynccontextmanager
 from typing import Union, List
 
 from fastapi import FastAPI
@@ -8,11 +9,25 @@ from fastapi.middleware.cors import CORSMiddleware
 from surveillance.ApiSubject import ApiSubject
 from surveillance.PersonCounter import PersonCounter
 from surveillance.WebSocketManager import WebSocketManager
-from surveillance.dto.event import EventDTO, Event, ExtendedEvent
+from surveillance.dto.event import EventDTO, ExtendedEvent
 from surveillance.gpio.Device import Device
 from surveillance.gpio.MotionSensor import MotionSensor
 
+# async def printHello():
+#     while True:
+#         print("hello")
+#         await asyncio.sleep(3)
+#
+#
+# @asynccontextmanager
+# async def lifespan(app: FastAPI):
+#     loop = asyncio.get_event_loop()
+#     asyncio.ensure_future(printHello(), loop=loop)
+#     yield
+
+# app = FastAPI(lifespan=lifespan)
 app = FastAPI()
+
 origins = [
     "http://localhost:3000",
     "https://buntelrus.github.io",
@@ -43,12 +58,6 @@ def devices():
 
 @app.get("/events")
 async def events() -> List[EventDTO]:
-    await m1.notify(ExtendedEvent(
-        actor=m1.id,
-        data="wow",
-        severity='warning',
-        name='person-enter'
-    ))
     return ApiSubject.event_list
 
 
