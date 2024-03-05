@@ -14,6 +14,7 @@ from surveillance.dto.event import EventDTO, ExtendedEvent
 from surveillance.gpio.Device import Device
 from surveillance.gpio.LED import LED
 from surveillance.gpio.MotionSensor import MotionSensor
+from surveillance.gpio.TemperatureSensor import TemperatureSensor
 
 # async def printHello():
 #     while True:
@@ -47,6 +48,7 @@ m1 = MotionSensor(pin=1, websocket_manager=websocket_manager)
 m2 = MotionSensor(pin=2, websocket_manager=websocket_manager)
 p = PersonCounter(m1, m2, websocket_manager=websocket_manager)
 led = LED(pin=3, websocket_manager=websocket_manager)
+t = TemperatureSensor(pin=4, websocket_manager=websocket_manager)
 
 @app.get("/")
 async def root():

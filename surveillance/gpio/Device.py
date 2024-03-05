@@ -16,7 +16,8 @@ class Device(ApiSubject):
         Device.device_list.append(DeviceDTO(
             id=self.id,
             name=self.name,
-            description=self.description
+            description=self.description,
+            value=self.value
         ))
         super().__init__(**kwds)
 

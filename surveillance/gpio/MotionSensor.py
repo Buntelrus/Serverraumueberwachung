@@ -7,15 +7,16 @@ class MotionSensor(Device):
     def __init__(self, **kwds):
         self.name = 'motion'
         self.description = 'Sensor can detect motion'
+        self.value: bool = False
+        # self.value: bool = self.sensor.value
         super().__init__(**kwds)
         # self.sensor: ZeroMotionSensor = ZeroMotionSensor(self.pin)
         self.sensor = f"sensor with pin: {self.pin}"
-        # self.motionDetected: bool = self.sensor.value
         # self.sensor.when_motion = lambda: self.updateState(True)
         # self.sensor.when_no_motion = lambda: self.updateState(False)
 
     # only notify when state has changed
     def updateState(self, newState: bool):
-        if (self.motionDetected != newState):
+        if (self.value != newState):
             self.notify(newState)
 

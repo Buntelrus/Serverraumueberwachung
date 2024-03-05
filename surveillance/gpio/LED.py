@@ -8,6 +8,7 @@ class LED(Device):
     def __init__(self, **kwds):
         self.name = 'led'
         self.description = 'A simple LED'
+        self.value = False
         super().__init__(**kwds)
 
     def on(self):

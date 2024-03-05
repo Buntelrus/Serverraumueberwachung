@@ -5,7 +5,10 @@
         <NuxtLink to="/">Home</NuxtLink>
       </li>
       <li>
-        <NuxtLink to="/log">Log</NuxtLink>
+        <NuxtLink to="/event-log">Event-Log</NuxtLink>
+      </li>
+      <li>
+        <NuxtLink to="/settings">Settings</NuxtLink>
       </li>
     </ol>
   </nav>
