@@ -2,7 +2,7 @@ type EventNames = 'person-enter' | 'person-leave';
 type Severity = 'critical' | 'warning' | 'info';
 
 interface Event {
-    device: number
+    device: number[] | number
     data: any
 }
 

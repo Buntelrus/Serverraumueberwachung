@@ -1,13 +1,9 @@
-import asyncio
-
-from surveillance.ApiSubject import ApiSubject
 from gpiozero import MotionSensor as ZeroMotionSensor
 
-from surveillance.dto.event import ExtendedEvent
 from surveillance.gpio.Device import Device
 
 
-class MotionSensor(ApiSubject):
+class MotionSensor(Device):
     def __init__(self, **kwds):
         super().__init__(**kwds)
         # self.sensor: ZeroMotionSensor = ZeroMotionSensor(self.pin)

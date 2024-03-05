@@ -1,4 +1,4 @@
-from typing_extensions import TypedDict, Literal, Any
+from typing_extensions import TypedDict, Literal, Any, List
 
 EventNames = Literal[Literal['person-enter'], Literal['person-leave']]
 
@@ -6,7 +6,7 @@ Severity = Literal[Literal['critical'], Literal['warning'], Literal['info']]
 
 
 class Event(TypedDict):
-    device: int
+    device: List[int] | int
     data: Any
 
 

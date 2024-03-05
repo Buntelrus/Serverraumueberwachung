@@ -4,18 +4,17 @@ from typing_extensions import List, Any
 
 from surveillance.Subject import Subject
 from surveillance.WebSocketManager import WebSocketManager
-from surveillance.dto.event import EventDTO, Event
-from surveillance.gpio.Device import Device
+from surveillance.dto.event import EventDTO
 
 
-class ApiSubject(Subject, Device):
+class ApiSubject(Subject):
     event_list: List[EventDTO] = []
+
     def __init__(self, websocket_manager: WebSocketManager, **kwds):
         self.websocket_manager = websocket_manager
         super().__init__(**kwds)
 
     def notify(self, payload: Any):
-        event: EventDTO = Event(device=self.id,data=payload)
-        super().notify(event)
-        ApiSubject.event_list.append(event)
-        asyncio.ensure_future(self.websocket_manager.broadcast(event), loop=asyncio.get_event_loop())
+        super().notify(payload)
+        ApiSubject.event_list.append(payload)
+        asyncio.ensure_future(self.websocket_manager.broadcast(payload), loop=asyncio.get_event_loop())
