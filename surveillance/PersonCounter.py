@@ -1,14 +1,15 @@
 from datetime import datetime, timedelta
 
-from surveillance.ApiSubject import ApiSubject
-from surveillance.dto.event import ExtendedEvent
+from surveillance.gpio.Device import Device
 from surveillance.gpio.MotionSensor import MotionSensor
 
 TIME=1000
-class PersonCounter(ApiSubject):
-    count: int = 0
-    lastMotion = None
+class PersonCounter(Device):
     def __init__(self, motionSensor1: MotionSensor, motionSensor2: MotionSensor, **kwargs):
+        self.name = 'person-counter'
+        self.description = 'Count the person which enter the server room'
+        self.value: int = 0
+        self.lastMotion = None
         self.motionSensor1: MotionSensor = motionSensor1
         self.motionSensor1.when_motion = lambda: (
             self.motionSensor1.when_motion(),
@@ -29,14 +30,9 @@ class PersonCounter(ApiSubject):
             return
         if self.lastMotion + timedelta(milliseconds=TIME) >= date:
             if sensor == self.motionSensor1:
-                self.count -= 1
+                self.value -= 1
             else:
-                self.count += 1
+                self.value += 1
 
-            self.notify(ExtendedEvent(
-                    device=[self.motionSensor1.id, self.motionSensor2.id],
-                    data=self.count,
-                    name='person-enter',
-                    severity='info',
-            ))
+            self.notify(self.value)
 

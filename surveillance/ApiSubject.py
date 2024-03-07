@@ -17,4 +17,5 @@ class ApiSubject(Subject):
     def notify(self, payload: Any):
         super().notify(payload)
         ApiSubject.event_list.append(payload)
+        loop=asyncio.get_event_loop()
         asyncio.ensure_future(self.websocket_manager.broadcast(payload), loop=asyncio.get_event_loop())

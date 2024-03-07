@@ -1,7 +1,7 @@
 import asyncio
 
 from surveillance.dto.device import TemperatureDTO
-from surveillance.dto.event import Event
+from surveillance.dto.event import EventDTO
 from surveillance.gpio.Device import Device
 
 import adafruit_dht
@@ -17,8 +17,8 @@ class TemperatureSensor(Device):
         self.temperature = 0
         self.humidity = 0
         super().__init__(**kwds)
-        # self.dht_device = adafruit_dht.DHT22(board.D4, use_pulseio=False)
-        # asyncio.ensure_future(self.temperature_loop(), loop=asyncio.get_event_loop())
+        self.dht_device = adafruit_dht.DHT22(board.D4, use_pulseio=False)
+        asyncio.ensure_future(self.temperature_loop(), loop=asyncio.get_event_loop())
 
     async def temperature_loop(self):
         while True:
@@ -29,10 +29,8 @@ class TemperatureSensor(Device):
                 print(f"{temperature}C°, Humidity: {humidity}")
 
                 if self.temperature - threshold >= temperature >= self.temperature + threshold or self.humidity - threshold >= humidity >= self.humidity + threshold:
-                    await self.websocket_manager.broadcast(Event(
-                        device=self.id,
-                        data=self.value
-                    ))
+                    self.notify(self.value)
+
 
                 await asyncio.sleep(1)
             except:

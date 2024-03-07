@@ -2,14 +2,14 @@ from typing_extensions import Any
 
 from surveillance.ApiSubject import ApiSubject
 from surveillance.dto.device import DeviceDTO
-from surveillance.dto.event import EventDTO, Event
+from surveillance.dto.event import EventDTO
 
 
 class Device(ApiSubject):
     actor_count: int = 0
     device_list: list[DeviceDTO] = []
 
-    def __init__(self, pin: int, **kwds):
+    def __init__(self, pin: int = 0, **kwds):
         Device.actor_count += 1
         self.id: int = Device.actor_count
         self.pin: int = pin
@@ -22,5 +22,5 @@ class Device(ApiSubject):
         super().__init__(**kwds)
 
     def notify(self, payload: Any):
-        event: EventDTO = Event(device=self.id, data=payload)
+        event: EventDTO = EventDTO(device=self.id, data=payload)
         super().notify(event)
