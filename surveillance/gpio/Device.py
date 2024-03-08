@@ -6,12 +6,12 @@ from surveillance.dto.event import EventDTO
 
 
 class Device(ApiSubject):
-    actor_count: int = 0
+    device_count: int = 0
     device_list: list[DeviceDTO] = []
 
     def __init__(self, pin: int = 0, **kwds):
-        Device.actor_count += 1
-        self.id: int = Device.actor_count
+        Device.device_count += 1
+        self.id: int = Device.device_count
         self.pin: int = pin
         Device.device_list.append(DeviceDTO(
             id=self.id,
