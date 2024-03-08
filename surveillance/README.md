@@ -59,3 +59,9 @@ classDiagram
     }
 ```
 
+## PersonCounter
+
+Wir zählen die Personen im Raum, in dem wir die Bewegung von 2 Bewegungssensoren auswerten. Wenn innerhalb eines kurzen Zeitraums
+beide Sensoren aktiviert werden, kann man die Richtung bestimmen, die eine Person genommen hat. Und so die Anzahl der Personen im Raum
+entweder eins hoch- oder runterzählen.
+
