@@ -1,4 +1,6 @@
 let ws: WebSocket
+let interval: NodeJS.Timeout
+let timeout: NodeJS.Timeout
 const retryInterval = 30
 const retryInSeconds = ref<number|undefined>(undefined)
 const eventListeners: any[] = []
@@ -6,6 +8,9 @@ const connectionEstablished = ref<boolean|null>(false)
 const connectToWebsocket = () => {
     if (connectionEstablished.value !== false) return
     connectionEstablished.value = null
+    clearInterval(interval)
+    clearTimeout(timeout)
+    retryInSeconds.value = retryInterval
     const { wsBaseUrl } = useSettingsStore()
     ws = new WebSocket(`${wsBaseUrl}/ws`)
     for (const args of eventListeners) {
@@ -18,9 +23,8 @@ const connectToWebsocket = () => {
     ws.addEventListener('close', () => {
         console.log('close')
         connectionEstablished.value = false
-        retryInSeconds.value = retryInterval
-        const interval = setInterval(() => retryInSeconds.value!--, 1000)
-        setTimeout(() => {
+        interval = setInterval(() => retryInSeconds.value!--, 1000)
+        timeout = setTimeout(() => {
             connectToWebsocket()
             clearInterval(interval)
         }, retryInterval * 1000)
