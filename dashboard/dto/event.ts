@@ -1,14 +1,14 @@
-type EventNames = 'person-enter' | 'person-leave';
-type Severity = 'critical' | 'warning' | 'info';
+// type EventNames = 'person-enter' | 'person-leave';
+// type Severity = 'critical' | 'warning' | 'info';
 
-interface Event {
-    device: number[] | number
+export interface EventDTO {
+    device: number
     data: any
 }
 
-interface ExtendedEvent extends Event {
-    name: EventNames
-    severity: Severity
-}
-
-export type EventDTO = Event | ExtendedEvent;
+// interface ExtendedEvent extends Event {
+//     name: EventNames
+//     severity: Severity
+// }
+//
+// export type EventDTO = Event | ExtendedEvent;

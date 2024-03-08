@@ -1,6 +1,7 @@
 <template>
   <div class="connection" :class="{connected}">
     {{ connected ? 'Connection established' : 'No Connection'}}
+    <span>retrying in {{ retryInSeconds }} seconds</span>
   </div>
 </template>
 
@@ -8,7 +9,7 @@
   import {useWebsocket} from "~/composables/websocket";
   import {useEventListener} from "~/composables/event-listener";
 
-  const ws = useWebsocket()
+  const { ws, retryInSeconds } = useWebsocket()
   const connected = ref<boolean>(ws.readyState === ws.OPEN)
   useEventListener(ws, 'open', () => {
     connected.value = true

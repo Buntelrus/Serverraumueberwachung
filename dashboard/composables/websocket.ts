@@ -1,30 +1,38 @@
 let ws: WebSocket
+const retryInterval = 30
+const retryInSeconds = ref<number|undefined>(undefined)
 const eventListeners: any[] = []
-let connectionEstablished = false
+const connectionEstablished = ref<boolean|null>(false)
 const connectToWebsocket = () => {
+    if (connectionEstablished.value !== false) return
+    connectionEstablished.value = null
     const { wsBaseUrl } = useSettingsStore()
-    console.log('websocketURL:', wsBaseUrl)
     ws = new WebSocket(`${wsBaseUrl}/ws`)
     for (const args of eventListeners) {
         ws.addEventListener.apply(ws, args as any)
     }
     ws.addEventListener('open', () => {
         console.log('open')
-        connectionEstablished = true
+        connectionEstablished.value = true
     })
     ws.addEventListener('close', () => {
         console.log('close')
-        connectionEstablished = false
-        retry()
+        connectionEstablished.value = false
+        retryInSeconds.value = retryInterval
+        const interval = setInterval(() => retryInSeconds.value!--, 1000)
+        setTimeout(() => {
+            connectToWebsocket()
+            clearInterval(interval)
+        }, retryInterval * 1000)
+
     })
     ws.addEventListener('error', err => {
         console.log('error', err)
     })
 }
-const retry = () => setTimeout(connectToWebsocket, 3000)
 export const useWebsocket = () => {
-    connectionEstablished || connectToWebsocket()
-    return new Proxy<WebSocket>(ws, {
+    connectToWebsocket()
+    const websocket = new Proxy<WebSocket>(ws, {
         get(target, prop, receiver) {
             switch (prop) {
                 case 'addEventListener': return (...args: any[]) => {
@@ -47,4 +55,6 @@ export const useWebsocket = () => {
             }
         },
     })
+
+    return { ws: websocket, connectToWebsocket, connectionEstablished, retryInSeconds }
 }

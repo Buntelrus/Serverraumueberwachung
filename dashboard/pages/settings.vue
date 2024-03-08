@@ -22,18 +22,17 @@ import {useTestConnection} from "~/composables/test-connection";
 const router = useRouter()
 const cameFrom = router.options.history.state.back
 const settings = useSettingsStore()
+const { connectToWebsocket } = useWebsocket()
 
 const error = ref<string|undefined>(undefined)
 const tryConnectionAndSaveSettings = () => useTestConnection()
     .then(() => {
+      connectToWebsocket()
       settings.saveSettings()
       router.push(cameFrom as string || '/')
     })
     .catch(err => {
-      console.log('error!!!')
       error.value = err
     })
-
-
 
 </script>
